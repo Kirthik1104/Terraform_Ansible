@@ -2,3 +2,6 @@
 .terraform/
 .terraform/
 *.tfvars
+*.pem
+*.pem.pub
+vault.pass

@@ -1,0 +1,35 @@
+---
+- name: System-wide updates and software installation
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update all packages (Debian/Ubuntu)
+      apt:
+        update_cache: yes
+        upgrade: dist
+      when: ansible_os_family == "Debian"
+
+    - name: Update all packages (RHEL/CentOS)
+      yum:
+        name: '*'
+        state: latest
+      when: ansible_os_family == "RedHat"
+
+    - name: Install essential packages (Debian/Ubuntu)
+      apt:
+        name:
+          - git
+          - curl
+          - htop
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install essential packages (RHEL/CentOS)
+      yum:
+        name:
+          - git
+          - curl
+          - htop
+        state: present
+      when: ansible_os_family == "RedHat"

@@ -1,0 +1,21 @@
+---
+- name: Start EC2 instances with public IPs
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Start an EC2 instance with a public IP address
+      amazon.aws.ec2_instance:
+        name: "{{ item.name }}"
+        key_name: "ansi-test"
+        instance_type: t2.micro
+        security_group: default
+        region: us-west-2
+        aws_access_key: "{{ access_key }}"
+        aws_secret_key: "{{ secret_key }}"
+        network_interfaces:
+          - assign_public_ip: true
+        image_id: "{{ item.image }}"
+      loop:
+        - {image: "ami-05572e392e80aee89", name: "manage-node-1" }
+        - {image: "ami-075686beab831bb7f", name: "manage-node-2" }
+        - {image: "ami-075686beab831bb7f", name: "manage-node-3" }
